@@ -1,25 +1,25 @@
-# 따옴 변환 — Windows 배포
+# 따옴 변환 — Windows 설치와 업데이트
 
-[웹에서 변환하기](https://ttaom.kr/convert) · [릴리스 페이지](https://github.com/bluezion/ttaom-convert-releases/releases)
+[웹에서 변환하기](https://ttaom.kr/convert/#desktop) · [Windows 0.8.5 릴리스](https://github.com/bluezion/ttaom-convert-releases/releases/tag/v0.8.5)
 
-이 저장소는 따옴 변환 Windows 설치 파일과 자동 업데이트 패키지를 배포하기 위한 전용 저장소입니다. 앱 소스와 비공개 인증 자료는 게시하지 않습니다. 기존 따옴 캡처 앱의 배포 저장소와는 별개입니다.
+현재 Windows 배포는 **코드 서명이 없는 미리보기**입니다. 앱과 Setup에 확인되지 않은 게시자 경고가 표시될 수 있습니다. 정식 코드 서명·상용 검토 완료본은 아닙니다.
 
-## 현재 상태 — 2026-11-05
+## 처음 설치
 
-Windows 설치 파일과 공개 업데이트 feed는 아직 게시되지 않았습니다. 웹의 Windows 다운로드 버튼도 배포 준비 상태로 표시합니다. 자동 업데이트 운영을 완료했다고 안내하지 않습니다.
+1. **Microsoft runtime을 먼저 준비하세요.** [Microsoft 공식 Visual C++ x64 installer](https://aka.ms/vs/17/release/vc_redist.x64.exe)를 직접 다운로드하고 일반 설치 화면에서 Microsoft 게시자와 약관을 확인하세요. 14.44.35112 이상 또는 호환되는 새 버전이 필요합니다. 이미 호환 runtime이 있다면 다시 설치할 필요가 없습니다. 앱에는 MSVC runtime DLL이나 Microsoft installer가 포함돼 있지 않습니다. embedded Python 자체는 포함되며 그 폴더의 MSVC DLL만 제외했습니다.
+2. [0.8.5 Setup](https://github.com/bluezion/ttaom-convert-releases/releases/download/v0.8.5/LocalConvert.Desktop-win-Setup.exe)을 다운로드하고 [SHA-256 목록](https://github.com/bluezion/ttaom-convert-releases/releases/download/v0.8.5/SHA256SUMS.txt)을 대조해 설치하세요. 시스템 보안 설정을 끄는 절차는 제공하지 않습니다.
+3. 이후 앱은 시작할 때 업데이트를 자동 확인합니다. **다운로드와 적용·재시작은 앱의 업데이트 화면에서 사용자가 선택합니다.** 무인 자동 설치 방식은 아닙니다. 변환·녹화·엔진 설치 중 적용은 차단됩니다.
 
-공개 전 남은 조건은 게시자 코드 서명 인증서와 타임스탬프 검증, Microsoft 개발 도구/런타임 배포 자격 확인, 버전별 라이선스·코덱·접근성 검토 기록, 실제 공개 HTTPS 설치/업데이트 검증입니다. 준비 중인 로컬 빌드는 서명되지 않은 검증본이며 상용 승인본이 아닙니다.
+0.8.4는 SDK의 GitHub URL 자동 분류로 업데이트 확인이 실패하는 문제가 있어 0.8.5에서 명시적인 HTTP feed로 수정했습니다. **0.8.4 이하 사용자는 0.8.5 Setup을 한 번 직접 설치해야 합니다.** 이전 버전 파일은 변경하지 않고 보존합니다.
 
-## 자동 업데이트 방식
+## 업데이트 경로와 검증 범위
 
-승인된 첫 설치 파일을 설치하면 앱은 다음 주소의 Velopack feed를 통해 업데이트를 확인합니다.
+업데이트 feed는 `https://github.com/bluezion/ttaom-convert-releases/releases/latest/download/releases.win.json`입니다. 버전별 패키지는 고정 이름으로 게시하고 기존 파일을 덮어쓰지 않습니다. draft에 업로드한 자산을 다시 받아 해시를 대조한 뒤 release 전체를 공개합니다. Windows 게시자 서명과 파일 SHA-256은 서로 다른 검증 수단입니다.
 
-`https://github.com/bluezion/ttaom-convert-releases/releases/latest/download`
-
-이 주소는 배포 예정 경로이며 현재 다운로드 가능한 feed가 아닙니다. 기존 0.8.3 이하 검증본에는 공개 주소가 내장되어 있지 않아 승인된 새 버전을 한 번 설치해야 합니다. 업데이트 확인과 다운로드, 적용은 앱의 업데이트 화면에서 진행하며 변환·녹화·엔진 설치 중 적용은 차단됩니다.
-
-공개할 때는 새 버전의 고정 자산을 draft release에 업로드하고 원격 다운로드 SHA-256을 대조한 뒤 release 전체를 공개합니다. 기존 버전의 설치 파일과 package를 덮어쓰지 않습니다. 서명은 Windows 게시자 신뢰 검증, SHA-256은 전송한 파일의 동일성을 확인하는 별도 수단입니다.
+runtime 14.51.36247이 설치된 Windows에서 새 설치, 실제 이미지·PDF·영상 변환, 업데이트 다운로드/해시/적용/재시작과 데이터 보존을 시험합니다. runtime이 전혀 없는 깨끗한 PC에서 Microsoft installer 설치·약관·재시작 경로까지 검증한 것은 아닙니다. 개발 도구 사용 자격·특허 등 상용 검토가 완료됐다는 의미도 아닙니다.
 
 ## 개인정보
 
-선택한 파일, 파일 이름, 변환 결과, 로컬 연결 키는 인터넷 서버로 전송하지 않습니다. 브라우저 변환은 사용자의 기기에서 처리합니다. 엔진 설치/업데이트는 고정 엔진 자산을 다운로드하며, 사용자가 명시적으로 요청한 원격 URL 다운로드는 별도 화면에서 실행합니다.
+선택한 파일, 파일 이름, 변환 결과와 로컬 연결 키는 인터넷 서버로 전송하지 않습니다. 파일 변환은 사용자의 기기에서 처리합니다. 업데이트와 선택 엔진 설치는 고정 엔진 자산만 다운로드합니다. 사용자가 명시적으로 요청한 원격 URL 다운로드는 별도 화면에서 실행합니다.
+
+이 저장소는 배포 안내와 설치/업데이트 자산 전용입니다. 비공개 앱 저장소·인증 정보는 게시하지 않으며 기존 따옴 캡처 앱의 배포와 분리합니다.
